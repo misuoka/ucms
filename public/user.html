@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  <link rel="stylesheet" href="layui/css/layui.css">
+  <link rel="stylesheet" href="css/global.css">
+</head>
+
+<body>
+  <div class="layui-layout iframe-container">
+    <blockquote class="layui-elem-quote mylog-info-tit" style="border-bottom: 0px; margin: 10px 0px;">
+      <div class="layui-inline">
+        <form class="layui-form" id="sysExceptionForm">
+          <input type="hidden" name="logType" value="error">
+          <div class="layui-input-inline" style="width:110px;">
+            <select name="searchTerm">
+                <option value="logTitleTerm">日志标题</option>
+              </select>
+            <div class="layui-unselect layui-form-select">
+              <div class="layui-select-title">
+                <input type="text" placeholder="请选择" value="日志标题" readonly="" class="layui-input layui-unselect"><i class="layui-edge"></i></div>
+              <dl class="layui-anim layui-anim-upbit" style="">
+                <dd lay-value="logTitleTerm" class="layui-this">日志标题</dd>
+              </dl>
+            </div>
+          </div>
+          <div class="layui-input-inline" style="width:180px;">
+            <input type="text" name="searchContent" value="" placeholder="请输入关键字" class="layui-input search_input">
+          </div>
+          <a class="layui-btn sysExceptionSearch_btn" lay-submit="" lay-filter="sysExceptionSearchFilter"><i class="layui-icon larry-icon larry-chaxun7"></i>查询</a>
+        </form>
+      </div>
+      <div class="layui-inline">
+        <a class="layui-btn layui-btn-normal excelSysExceptionLogExport_btn" style="background-color:#5FB878"> <i class="layui-icon larry-icon larry-danye"></i>导出</a>
+      </div>
+    </blockquote>
+    <div class="layui-btn-group">
+      <button class="layui-btn layui-btn-small">
+          <i class="layui-icon">&#xe654;</i>
+        </button>
+      <button class="layui-btn layui-btn-small">
+          <i class="layui-icon">&#xe642;</i>
+        </button>
+      <button class="layui-btn layui-btn-small">
+          <i class="layui-icon">&#xe640;</i>
+        </button>
+      <button class="layui-btn layui-btn-small">
+          <i class="layui-icon">&#xe602;</i>
+        </button>
+    </div>
+    <table class="layui-table" lay-data="{height:390,url:'data/user.js', page:true, id:'test'}" lay-filter="test">
+      <thead>
+        <tr>
+          <th lay-data="{checkbox:true}"></th>
+          <th lay-data="{field:'id', width:80, sort: true}">ID</th>
+          <th lay-data="{field:'username', width:80}">用户名</th>
+          <th lay-data="{field:'sex', width:80, sort: true}">性别</th>
+          <!-- <th lay-data="{edit:'text'}"></th> -->
+          <th lay-data="{field:'city', width:80}">城市</th>
+          <th lay-data="{field:'sign', width:177}">签名</th>
+          <th lay-data="{field:'experience', width:80, sort: true}">积分</th>
+          <th lay-data="{field:'score', width:80, sort: true}">评分</th>
+          <th lay-data="{field:'classify', width:80}">职业</th>
+          <th lay-data="{field:'wealth', width:135, sort: true}">财富</th>
+          <th lay-data="{fixed:'right', width:160, align:'center', toolbar: '#barDemo'}"></th>
+        </tr>
+      </thead>
+    </table>
+    <script type="text/html" id="barDemo">
+      <a class="layui-btn layui-btn-primary layui-btn-mini" lay-event="detail">查看</a>
+      <a class="layui-btn layui-btn-mini" lay-event="edit">编辑</a>
+      <a class="layui-btn layui-btn-danger layui-btn-mini" lay-event="del">删除</a>
+    </script>
+  </div>
+</body>
+<script src="layui/layui.js"></script>
+<script>
+  //JavaScript代码区域
+  layui.use(['table', 'element'], function() {
+    var element = layui.element,
+      table = layui.table;
+
+    //监听工具条
+    table.on('tool(test)', function(obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+      var data = obj.data //获得当前行数据
+        ,
+        layEvent = obj.event; //获得 lay-event 对应的值
+      if (layEvent === 'detail') {
+        layer.msg('查看操作');
+      } else if (layEvent === 'del') {
+        layer.confirm('真的删除行么', function(index) {
+          obj.del(); //删除对应行（tr）的DOM结构
+          layer.close(index);
+          //向服务端发送删除指令
+        });
+      } else if (layEvent === 'edit') {
+        layer.msg('编辑操作');
+      }
+    });
+
+  });
+</script>
+
+</html>

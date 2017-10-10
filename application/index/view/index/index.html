@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <link rel="stylesheet" href="__ROOT__layui/css/layui.css">
+  <link rel="stylesheet" href="__ROOT__css/global.css">
+</head>
+
+<body>
+  <div class="layui-layout layui-layout-admin">
+    <div class="layui-header header">
+      <div class="layui-main">
+        <a class="logo" href="/index/index/index.html" target="_blank">
+          <img src="/static/images/logo-top.png" alt="LzCMS">
+        </a>
+        <div class="" id="top-menu"></div>
+        <div class="top_admin_user">
+          <a href="/" target="_blank">网站首页</a> |<a class="update_cache" href="javascript:void(0)">更新缓存</a> | <a class="logout_btn" href="javascript:void(0)">退出</a>
+        </div>
+      </div>
+    </div>
+    <div class="layui-side layui-bg-cyan">
+      <div class="layui-side-scroll">
+        <!-- 管理员信息      -->
+        <div class="user-info">
+          <div class="photo">
+            <img src="/image/user.jpg" alt="">
+          </div>
+          <p>admin您好！欢迎登录</p>
+        </div>
+        <!-- <div class="kit-side-fold"><i class="layui-icon" aria-hidden="true">&#xe60f;</i></div> -->
+        <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+        <ul class="layui-nav layui-nav-tree layui-bg-cyan layui-inline" lay-filter="leftMenu" id="left-menu">
+          <li class="layui-nav-item">
+            <a href="javascript:;"><i class="layui-icon">&#xe614;</i><cite>基本管理</cite></a>
+            <dl class="layui-nav-child">
+              <dd><a href="javascript:;" href-url=""><i class="layui-icon">&#xe857;</i><cite>菜单管理</cite></a></dd>
+              <dd><a href="javascript:;" href-url="System/index" data-id="1"><i class="layui-icon">&#xe612;</i><cite>用户管理</cite></a></dd>
+              <dd><a href="javascript:;" lay-filter="leftMenuA"><i class="layui-icon">&#xe61b;</i><cite>角色管理</cite></a></dd>
+            </dl>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="layui-body layui-main">
+      <div class="layui-tab" lay-filter="card">
+        <ul class="layui-tab-title top_tab">
+          <li class="layui-this" lay-id="0"><i class="layui-icon">&#xe68e;</i><span>首页</span></li>
+          <!-- <li>用户基本管理<i class="layui-icon layui-unselect layui-tab-close" data-id="1">&#x1006;</i></li> -->
+        </ul>
+        <div class="larry-title-box">
+          <div class="go-left key-press pressKey" id="titleLeft" title="滚动至最右侧"><i class="layui-icon">&#xe602;</i> </div>
+
+          <div class="title-right">
+            <div class="go-right key-press pressKey" id="titleRight" title="滚动至最左侧"><i class="layui-icon">&#xe603;</i></div>
+            <div class="refresh key-press" id="refresh_iframe">
+              <a><i class="layui-icon">&#x1002;</i>
+                  <cite>刷新</cite></a>
+            </div>
+            <div class="often key-press" lay-filter='larryOperate' id="buttonRCtrl">
+              <ul class="layui-nav posr">
+                <li class="layui-nav-item posb">
+                  <a class="top"><i class="layui-icon">&#xe671;</i><cite>常用操作</cite></a>
+                  <dl class="layui-nav-child">
+                    <dd>
+                      <a data-eName="closeCurrent"><i class="layui-icon">&#x1006;</i>关闭当前选项卡</a>
+                    </dd>
+                    <dd>
+                      <a data-eName="closeOther"><i class="layui-icon">&#x1006;</i>关闭其他选项卡</a>
+                    </dd>
+                    <dd>
+                      <a data-eName="closeAll"><i class="layui-icon">&#x1007;</i>关闭全部选项卡</a>
+                    </dd>
+                    <dd>
+                      <a data-eName="refreshAdmin"><i class="layui-icon">&#x1002;</i>刷新最外层框架</a>
+                    </dd>
+                  </dl>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="layui-tab-content">
+          <div class="layui-tab-item layui-show">
+            <iframe class="larry-iframe content-iframe" data-id='0' id='home_iframe' src="user.html" scrolling="atuo"></iframe>
+          </div>
+        </div>
+      </div>
+      <!-- 内容主体区域 -->
+      <!-- <fieldset class="layui-elem-field layui-field-title" style="margin-top: 15px;">
+            <legend>用户管理</legend>
+          </fieldset> -->
+    </div>
+    <div class="layui-footer">
+      <!-- 底部固定区域 -->
+      Copyright © msnuc.com - 2017
+    </div>
+  </div>
+  <script src="/layui/layui.js"></script>
+  <script src="/app/common/common.js"></script>
+  <script src="/app/controller/index.js"></script>
+  <!-- <script>
+    //JavaScript代码区域
+    layui.use(['layer', 'element'], function() {
+      var element = layui.element,
+        layer = layui.layer,
+        $ = layui.$;
+
+      $('#top-menu').append('<li class="layui-nav-item"><a href="javascript:void(0)">内容</a></li>');
+      element.init();
+      element.on('nav(topMenu)', function(obj) {
+        // log(obj)
+        layer.tips('点击', this);
+      })
+
+      element.on('nav(leftMenu)', function(obj) {
+        var that = this;
+        // log(this);
+        log(obj, obj.context);
+        layui.each(obj[0].children, function(index, sub) {
+          log(index, sub)
+          sub.atrr('')
+        });
+        layer.tips('点击菜单', that); //在元素的事件回调体中，follow直接赋予this即可
+      })
+
+      // log($('#left-menu a'))
+      //   $('#left-menu a').each(function() {
+      //     $(this).hover(function(e) {
+      //       var that = this;
+      //       layer.tips('只想提示地精准些', that); //在元素的事件回调体中，follow直接赋予this即可
+      //     })
+      //   });
+
+      //主入口
+      // app.set({
+      //     type: 'iframe'
+      // }).init(); // 可以渲染iframe，即里面不需要写js
+
+      // layer.load(1);
+
+      //监听工具条
+      // table.on('tool(test)', function(obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+      //   var data = obj.data //获得当前行数据
+      //     ,
+      //     layEvent = obj.event; //获得 lay-event 对应的值
+      //   if (layEvent === 'detail') {
+      //     layer.msg('查看操作');
+      //   } else if (layEvent === 'del') {
+      //     layer.confirm('真的删除行么', function(index) {
+      //       obj.del(); //删除对应行（tr）的DOM结构
+      //       layer.close(index);
+      //       //向服务端发送删除指令
+      //     });
+      //   } else if (layEvent === 'edit') {
+      //     layer.msg('编辑操作');
+      //   }
+      // });
+
+    });
+  </script> -->
+</body>
+
+</html>

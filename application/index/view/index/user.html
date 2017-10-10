@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+
+<body>
+  <h3>用户主页</h3>
+  <span>Hello, {$name}！欢迎回来。</span>
+  <br>
+  <div id="show"></div>
+  <input type="hidden" name="session_id" id="sessid" value="{:session_id()}">
+  <script>
+    var ws = new WebSocket('ws://tp51.app:2346');
+    var show = document.getElementById('show');
+    var sessid = document.getElementById('sessid');
+
+    var actions = {
+      offlineNotice: function(msg) {
+        alert(msg);
+      }
+    }
+
+    ws.onopen = function() {
+      var session_id = sessid.value;
+      show.innerHTML += 'WebSocket 连接成功......<br>';
+      ws.send(session_id);
+      show.innerHTML += '向服务端发送身份验证......<br>';
+      console.info('send:' + session_id);
+    };
+
+    ws.onmessage = function(e) {
+      // alert(e.data);
+      // show.innerHTML += '收到服务端的数据......<br>';
+      console.info(e.data);
+      var obj = JSON.parse(e.data);
+      if (obj && obj['fn']) {
+        actions[obj['fn']](obj.message);
+      }
+    };
+
+    // 定时心跳检测
+    var ssHeart = function() {
+      var dc = new Date().getTime();
+      console.log('发送心跳时间戳', dc);
+      ws.send(dc);
+      setTimeout(ssHeart, 20000);
+    }
+    setTimeout(ssHeart, 20000);
+  </script>
+</body>
+
+</html>
