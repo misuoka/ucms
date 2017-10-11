@@ -2,6 +2,7 @@
   "require": {
     "topthink/think-worker": "^1.0",
     "topthink/think-captcha": "2.0.x-dev",
-    "topthink/framework": "~5.1.0@dev"
+    "topthink/framework": "~5.1.0@dev",
+    "jstewmc/get-browser": "^2.0"
   }
 }

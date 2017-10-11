@@ -25,7 +25,7 @@ class Sysuser extends Model
         return password_hash($value, PASSWORD_DEFAULT, ['cost' => 12]);
     }
 
-    protected function setLaåstLoginipAttr()
+    protected function setLastLoginipAttr()
     {
         $request = Container::get('request');
         return $request->ip();
@@ -33,12 +33,14 @@ class Sysuser extends Model
 
     public static function login(array $data): bool
     {
+        $session = Container::get('session');
+        $session->delete('loginer');
         $sysuser = Sysuser::where('account', $data['account'])->find();
 
         if ($sysuser && password_verify($data['password'], $sysuser->password)) {
             $sysuser->login_count += 1;
             $sysuser->save();
-            Container::get('session')->set('loginer', $sysuser->getData());
+            $session->set('loginer', $sysuser->getData());
 
             return true;
         }

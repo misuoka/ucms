@@ -1,56 +1,51 @@
--- MySQL dump 10.13  Distrib 5.7.19, for Linux (x86_64)
---
--- Host: localhost    Database: hong_cms
--- ------------------------------------------------------
--- Server version	5.7.19-0ubuntu0.16.04.1
+/*
+ Navicat Premium Data Transfer
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+ Source Server         : homestead_localhost
+ Source Server Type    : MySQL
+ Source Server Version : 50719
+ Source Host           : 127.0.0.1
+ Source Database       : hong_cms
 
---
--- Table structure for table `login_log`
---
+ Target Server Type    : MySQL
+ Target Server Version : 50719
+ File Encoding         : utf-8
 
-DROP TABLE IF EXISTS `login_log`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `login_log` (
+ Date: 10/12/2017 02:38:53 AM
+*/
+
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+--  Table structure for `loginlog`
+-- ----------------------------
+DROP TABLE IF EXISTS `loginlog`;
+CREATE TABLE `loginlog` (
   `logid` int(11) NOT NULL AUTO_INCREMENT,
   `account` varchar(30) DEFAULT NULL,
   `ip` varchar(15) DEFAULT NULL,
   `status` int(11) DEFAULT NULL,
-  `browser` varchar(255) DEFAULT NULL,
+  `browser` varchar(50) DEFAULT NULL,
   `logtime` int(11) DEFAULT NULL,
   `get_param` varchar(512) DEFAULT NULL,
   `post_param` varchar(1024) DEFAULT NULL,
+  `platform` varchar(50) DEFAULT NULL,
+  `message` varchar(128) DEFAULT NULL,
   PRIMARY KEY (`logid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `login_log`
---
+-- ----------------------------
+--  Records of `loginlog`
+-- ----------------------------
+BEGIN;
+INSERT INTO `loginlog` VALUES ('1', null, '192.168.10.1', '1', 'Chrome - 61.0.3163.100', '1507743168', '[]', '{\"account\":\"conna45\",\"password\":\"123456\",\"captcha\":\"dkls\"}', 'Macintosh', null), ('2', null, '192.168.10.1', '1', 'Chrome - 61.0.3163.100', '1507744360', '[]', '{\"account\":\"conna45\",\"password\":\"\",\"captcha\":\"dkls\"}', 'Macintosh', null), ('3', 'conna45', '192.168.10.1', '1', 'Chrome - 61.0.3163.100', '1507744429', '[]', '{\"account\":\"conna45\",\"password\":\"\",\"captcha\":\"dkls\"}', 'Macintosh', null), ('4', 'conna45', '192.168.10.1', '1', 'Chrome - 61.0.3163.100', '1507746056', '[]', '{\"account\":\"conna45\",\"password\":\"\",\"captcha\":\"dkls\"}', 'Macintosh', '非法访问'), ('5', 'conna45', '192.168.10.1', '1', 'Chrome - 61.0.3163.100', '1507746772', '[]', '{\"account\":\"conna45\",\"password\":\"\",\"captcha\":\"dkls\"}', 'Macintosh', '登录成功'), ('6', 'conna45', '192.168.10.1', '0', 'Chrome - 61.0.3163.100', '1507746783', '[]', '{\"account\":\"conna45\",\"password\":\"1234564\",\"captcha\":\"dkls\"}', 'Macintosh', '登录失败，账号或密码错误'), ('7', 'conna45', '192.168.10.1', '1', 'Chrome - 61.0.3163.100', '1507746794', '[]', '{\"account\":\"conna45\",\"password\":\"\",\"captcha\":\"dkls\"}', 'Macintosh', '登录成功'), ('8', null, '192.168.10.1', '0', 'Safari - 10.1', '1507746827', '[]', '[]', 'Macintosh', '非法访问'), ('9', null, '192.168.10.1', '0', 'Safari - 10.1', '1507746832', '[]', '[]', 'Macintosh', '非法访问');
+COMMIT;
 
-LOCK TABLES `login_log` WRITE;
-/*!40000 ALTER TABLE `login_log` DISABLE KEYS */;
-/*!40000 ALTER TABLE `login_log` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `menu`
---
-
+-- ----------------------------
+--  Table structure for `menu`
+-- ----------------------------
 DROP TABLE IF EXISTS `menu`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `menu` (
   `mid` int(11) NOT NULL AUTO_INCREMENT,
   `menu_name` varchar(128) DEFAULT NULL,
@@ -66,24 +61,11 @@ CREATE TABLE `menu` (
   `status` int(11) DEFAULT NULL,
   PRIMARY KEY (`mid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `menu`
---
-
-LOCK TABLES `menu` WRITE;
-/*!40000 ALTER TABLE `menu` DISABLE KEYS */;
-/*!40000 ALTER TABLE `menu` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `role`
---
-
+-- ----------------------------
+--  Table structure for `role`
+-- ----------------------------
 DROP TABLE IF EXISTS `role`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `role` (
   `rid` int(11) NOT NULL AUTO_INCREMENT,
   `rolename` varchar(128) DEFAULT NULL,
@@ -92,48 +74,22 @@ CREATE TABLE `role` (
   `status` int(11) DEFAULT NULL,
   PRIMARY KEY (`rid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `role`
---
-
-LOCK TABLES `role` WRITE;
-/*!40000 ALTER TABLE `role` DISABLE KEYS */;
-/*!40000 ALTER TABLE `role` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `role_menu`
---
-
+-- ----------------------------
+--  Table structure for `role_menu`
+-- ----------------------------
 DROP TABLE IF EXISTS `role_menu`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `role_menu` (
   `rmid` int(11) DEFAULT NULL,
   `rid` int(11) DEFAULT NULL,
   `mid` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `role_menu`
---
-
-LOCK TABLES `role_menu` WRITE;
-/*!40000 ALTER TABLE `role_menu` DISABLE KEYS */;
-/*!40000 ALTER TABLE `role_menu` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `sys_log`
---
-
-DROP TABLE IF EXISTS `sys_log`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `sys_log` (
+-- ----------------------------
+--  Table structure for `syslog`
+-- ----------------------------
+DROP TABLE IF EXISTS `syslog`;
+CREATE TABLE `syslog` (
   `logid` int(11) NOT NULL AUTO_INCREMENT,
   `content` varchar(5000) DEFAULT NULL,
   `optype` int(11) DEFAULT NULL,
@@ -146,24 +102,11 @@ CREATE TABLE `sys_log` (
   `log_time` int(11) DEFAULT NULL,
   PRIMARY KEY (`logid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `sys_log`
---
-
-LOCK TABLES `sys_log` WRITE;
-/*!40000 ALTER TABLE `sys_log` DISABLE KEYS */;
-/*!40000 ALTER TABLE `sys_log` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `sysuer_role`
---
-
+-- ----------------------------
+--  Table structure for `sysuer_role`
+-- ----------------------------
 DROP TABLE IF EXISTS `sysuer_role`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `sysuer_role` (
   `srid` int(11) NOT NULL AUTO_INCREMENT,
   `suid` int(11) DEFAULT NULL,
@@ -171,24 +114,11 @@ CREATE TABLE `sysuer_role` (
   PRIMARY KEY (`srid`),
   UNIQUE KEY `unique_auth` (`suid`,`rid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `sysuer_role`
---
-
-LOCK TABLES `sysuer_role` WRITE;
-/*!40000 ALTER TABLE `sysuer_role` DISABLE KEYS */;
-/*!40000 ALTER TABLE `sysuer_role` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `sysuser`
---
-
+-- ----------------------------
+--  Table structure for `sysuser`
+-- ----------------------------
 DROP TABLE IF EXISTS `sysuser`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `sysuser` (
   `suid` int(11) NOT NULL AUTO_INCREMENT COMMENT '系统用户主键',
   `account` varchar(20) NOT NULL,
@@ -205,25 +135,12 @@ CREATE TABLE `sysuser` (
   PRIMARY KEY (`suid`),
   UNIQUE KEY `unique_account` (`account`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `sysuser`
---
+-- ----------------------------
+--  Records of `sysuser`
+-- ----------------------------
+BEGIN;
+INSERT INTO `sysuser` VALUES ('3', 'conna45', 'hong', '$2y$12$Q5jfjLiwMxzZY7Qx8jC4ZenlrRMtAINEL3A6peMM4y4zzb7rALDcm', null, null, '1506438516', '192.168.10.1', '1507746949', '69', '1', null);
+COMMIT;
 
-LOCK TABLES `sysuser` WRITE;
-/*!40000 ALTER TABLE `sysuser` DISABLE KEYS */;
-INSERT INTO `sysuser` VALUES (3,'conna45','hong','$2y$12$f7vUJOteSBoVaXvUHS.FoOORwwvWYY3Xm7Dh28D1Y5hqp9g5qyH.K',NULL,NULL,1506438516,'192.168.10.1',NULL,NULL,1,NULL);
-/*!40000 ALTER TABLE `sysuser` ENABLE KEYS */;
-UNLOCK TABLES;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
-
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
--- Dump completed on 2017-10-10 16:00:39
+SET FOREIGN_KEY_CHECKS = 1;

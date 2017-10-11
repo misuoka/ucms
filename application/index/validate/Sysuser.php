@@ -22,7 +22,7 @@ class Sysuser extends Validate
     ];
 
     protected $scene = [
-        'login' => ['account', 'password', 'captcha'],
+        'login' => ['account', 'password'],
     ];
 
     public function captchaCheck($value, $rule)
