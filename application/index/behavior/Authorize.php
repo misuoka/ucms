@@ -1,9 +1,9 @@
 <?php
 namespace app\index\behavior;
 
-use think\Request;
-use think\facade\Session;
 use think\facade\Config;
+use think\facade\Session;
+use think\Request;
 
 /**
  * 权限验证行为
@@ -15,15 +15,15 @@ class Authorize
 
     private $request;
     private $loginFilter = [];
-    private $authFilter = [];
+    private $authFilter  = [];
 
     public function run(Request $request, $params)
     {
-        $this->request = $request;
-        $arr1 = Config::get('uncheck_logined') ?: []; // 不需要登录即可访问
-        $arr2 = Config::get('uncheck_auth') ?: [];    // 不需要权限即可访问
+        $this->request     = $request;
+        $arr1              = Config::get('uncheck_logined') ?: []; // 不需要登录即可访问
+        $arr2              = Config::get('uncheck_auth') ?: []; // 不需要权限即可访问
         $this->loginFilter = array_map('strtolower', $arr1);
-        $this->authFilter = array_map('strtolower', $arr2);
+        $this->authFilter  = array_map('strtolower', $arr2);
 
         // 行为逻辑
         if (!$this->loginedAuth()) {
@@ -54,21 +54,21 @@ class Authorize
         $arr = array_map('strtolower', $arr);
 
         return in_array(strtolower($com), $arr)
-            || in_array(strtolower($url), $arr)
-            || Session::has('loginer');
+        || in_array(strtolower($url), $arr)
+        || Session::has('loginer');
     }
 
     /** 检查已登录用户的权限 */
     private function checkAuth()
     {
-        $arr  = array_merge($this->loginFilter, $this->authFilter);
-        $com  = $this->request->controller() . '/*';
-        $url  = $this->request->controller() . '/' . $this->request->action();
+        $arr = array_merge($this->loginFilter, $this->authFilter);
+        $com = $this->request->controller() . '/*';
+        $url = $this->request->controller() . '/' . $this->request->action();
         // TODO: 获得当前用户的权限
         // $auth = (new Menu())->getAuth($this->request->loginer['suid']);
-        
+
         return in_array(strtolower($com), $arr)
-            || in_array(strtolower($url), $arr)
-            || in_array(strtolower($url), array_map('strtolower', $auth));
+        || in_array(strtolower($url), $arr)
+        || in_array(strtolower($url), array_map('strtolower', $auth));
     }
 }

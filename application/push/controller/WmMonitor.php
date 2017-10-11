@@ -2,15 +2,15 @@
 
 namespace app\push\controller;
 
-use Workerman\Worker;
 use Workerman\Lib\Timer;
+use Workerman\Worker;
 
 class WmMonitor
 {
     private $worker;
-    private $havePush = [];
+    private $havePush       = [];
     const NOTICE_LIMIT_TIME = 60;
-    
+
     /**
      * 架构函数
      * @access public

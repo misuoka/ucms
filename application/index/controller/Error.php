@@ -8,7 +8,7 @@ class Error
     public function _empty(Request $request)
     {
         $controller = $request->controller();
-        $action = $request->action();
+        $action     = $request->action();
         return '当前请求[ ' . $controller . '/' . $action . ' ]不存在';
     }
 }
