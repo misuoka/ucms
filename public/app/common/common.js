@@ -6,9 +6,7 @@ if (!Array.isArray) {
   };
 }
 
-var App = function() {
-  var root = __root__;
-};
+var App = function() {};
 
 // App.prototype.getPath = function() {
 //   var pathName = window.location.pathname.substring(1);
@@ -22,7 +20,7 @@ var App = function() {
 // }
 
 App.prototype.getRoot = function() {
-  return this.root;
+  return __root__;
   // var pathName = window.location.pathname.substring(1);
   // var webName = pathName == '' ? '' : pathName.substring(0, pathName.indexOf('/'));
   // log(pathName, webName)

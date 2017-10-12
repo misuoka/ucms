@@ -19,22 +19,22 @@ class Authorize
 
     public function run(Request $request, $params)
     {
-        $this->request     = $request;
-        $arr1              = Config::get('uncheck_logined') ?: []; // 不需要登录即可访问
-        $arr2              = Config::get('uncheck_auth') ?: []; // 不需要权限即可访问
-        $this->loginFilter = array_map('strtolower', $arr1);
-        $this->authFilter  = array_map('strtolower', $arr2);
+        // $this->request     = $request;
+        // $arr1              = Config::get('uncheck_logined') ?: []; // 不需要登录即可访问
+        // $arr2              = Config::get('uncheck_auth') ?: []; // 不需要权限即可访问
+        // $this->loginFilter = array_map('strtolower', $arr1);
+        // $this->authFilter  = array_map('strtolower', $arr2);
 
-        // 行为逻辑
-        if (!$this->loginedAuth()) {
-            $this->error('您未登录系统，请登录', 'Index/login');
-        } else {
-            $this->request->loginer = $this->getLoginer();
-        }
+        // // 行为逻辑
+        // if (!$this->loginedAuth()) {
+        //     $this->error('您未登录系统，请登录', 'Index/login');
+        // } else {
+        //     $this->request->loginer = $this->getLoginer();
+        // }
 
-        if (!$this->checkAuth()) {
-            $this->error('您没有该权限', 'Index/login');
-        }
+        // if (!$this->checkAuth()) {
+        //     $this->error('您没有该权限', 'Index/login');
+        // }
     }
 
     private function getLoginer()

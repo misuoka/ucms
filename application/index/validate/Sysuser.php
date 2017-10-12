@@ -6,9 +6,9 @@ use think\Validate;
 class Sysuser extends Validate
 {
     protected $rule = [
+        'captcha'  => 'require|captchaCheck',
         'account'  => 'require|max:20|token',
         'password' => 'require',
-        'captcha'  => 'require|captchaCheck',
     ];
 
     protected $message = [
@@ -22,7 +22,7 @@ class Sysuser extends Validate
     ];
 
     protected $scene = [
-        'login' => ['account', 'password'],
+        'login' => ['captcha', 'account', 'password'],
     ];
 
     public function captchaCheck($value, $rule)

@@ -17,10 +17,10 @@ layui.use(['form', 'layer'], function() {
   });
 
   var refreshForm = function() {
-    $('#captchaimg').trigger('click');
-
+    $('#captchaimg').trigger('click'); // 刷新验证码和刷新token并发进行，会有几率导致token没存储成功
     $.get(app.buildUrl('Open/token'), function(data) {
-      // $('#captchaimg').trigger('click');
+      // $('#captchaimg').trigger('click'); // 先刷新token，后再刷新验证码可暂时规避这个问题
+      // 
       $('form > input[name=__token__]').val(data);
       $('.btn-submit').removeAttr("disabled");
     });

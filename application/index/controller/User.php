@@ -3,7 +3,6 @@ namespace app\index\controller;
 
 use app\index\model\Sysuser;
 use think\Controller;
-use think\facade\Hook;
 use think\Request;
 
 class User extends Controller
@@ -44,6 +43,7 @@ class User extends Controller
                 $msg = '登录失败，账号或密码错误';
             }
         }
+
         Hook::listen('loginlog_write', ['success' => $success, 'msg' => $msg]);
 
         $success ? $this->success($msg, 'Index/index') : $this->error($msg);

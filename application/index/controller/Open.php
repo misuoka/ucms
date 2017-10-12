@@ -1,9 +1,6 @@
 <?php
 namespace app\index\controller;
 
-use Jstewmc\GetBrowser\GetBrowser;
-use think\facade\Request;
-
 class Open
 {
     public function captcha()
@@ -18,11 +15,11 @@ class Open
 
     public function token()
     {
-        return Request::token();
+        return \think\facade\Request::token();
     }
 
     public function test()
     {
-        dump($_SESSION);
+
     }
 }
