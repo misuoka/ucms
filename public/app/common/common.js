@@ -6,24 +6,27 @@ if (!Array.isArray) {
   };
 }
 
-var App = function() {};
+var App = function() {
+  var root = __root__;
+};
 
-App.prototype.getPath = function() {
-  var pathName = window.location.pathname.substring(1);
-  log('pathName:', pathName)
-  var webName = pathName == '' ? '' : pathName.substring(0, pathName.indexOf('/'));
-  if (webName == "") {
-    return window.location.protocol + '//' + window.location.host;
-  } else {
-    return window.location.protocol + '//' + window.location.host + '/' + webName;
-  }
-}
+// App.prototype.getPath = function() {
+//   var pathName = window.location.pathname.substring(1);
+//   log('pathName:', pathName)
+//   var webName = pathName == '' ? '' : pathName.substring(0, pathName.indexOf('/'));
+//   if (webName == "") {
+//     return window.location.protocol + '//' + window.location.host;
+//   } else {
+//     return window.location.protocol + '//' + window.location.host + '/' + webName;
+//   }
+// }
 
 App.prototype.getRoot = function() {
-  var pathName = window.location.pathname.substring(1);
-  var webName = pathName == '' ? '' : pathName.substring(0, pathName.indexOf('/'));
-  log(pathName, webName)
-  return "/" + (webName ? webName + '/' : '');
+  return this.root;
+  // var pathName = window.location.pathname.substring(1);
+  // var webName = pathName == '' ? '' : pathName.substring(0, pathName.indexOf('/'));
+  // log(pathName, webName)
+  // return "/" + (webName ? webName + '/' : '');
 }
 
 App.prototype.buildParam = function(a) {
@@ -65,5 +68,6 @@ App.prototype.addUrlParam = function(url, param, iscover) {
 }
 
 app = new App();
-log(app.buildUrl('index/login', { a: 'test' }));
-log('root:', app.getPath())
+log(app.buildUrl('index/login', {
+  a: 'test'
+}));

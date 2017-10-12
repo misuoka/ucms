@@ -35,8 +35,9 @@ class Sysuser extends Model
     {
         $session = Container::get('session');
         $session->delete('loginer');
-        $sysuser = Sysuser::where('account', $data['account'])->find();
-
+        // $sysuser = Sysuser::where('account', $data['account'])->find();
+        $sysuser = Sysuser::getByAccount($data['account']);
+        
         if ($sysuser && password_verify($data['password'], $sysuser->password)) {
             $sysuser->login_count += 1;
             $sysuser->save();

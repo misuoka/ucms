@@ -1,13 +1,8 @@
 layui.config({
-  base: app.getPath() + '/app/modules/' //这个路径以页面引入的位置进行计算
+  base: app.getRoot() + '/app/modules/' //这个路径以页面引入的位置进行计算
 });
 
-var requireModule = [
-  'form',
-  'layer'
-];
-
-layui.use(requireModule, function() {
+layui.use(['form', 'layer'], function() {
   var layer = layui.layer,
     form = layui.form,
     $ = layui.jquery;
@@ -16,10 +11,20 @@ layui.use(requireModule, function() {
   $('input:first').focus();
   // 更新验证码
   $('#captchaimg').on('click', function() {
-    this.src = addUrlParam(this.src, {
+    this.src = app.addUrlParam(this.src, {
       _dc: (new Date()).getTime()
     });
   });
+
+  var refreshForm = function() {
+    $('#captchaimg').trigger('click');
+
+    $.get(app.buildUrl('Open/token'), function(data) {
+      // $('#captchaimg').trigger('click');
+      $('form > input[name=__token__]').val(data);
+      $('.btn-submit').removeAttr("disabled");
+    });
+  };
 
   // 验证
   form.verify({
@@ -45,10 +50,22 @@ layui.use(requireModule, function() {
   // 监听提交
   form.on('submit(login)', function(data) {
     // layer.msg(JSON.stringify(data.field));
-    var user = data.field;
-    login.login(user, function() {
-      $('#valid-img').trigger('click');
+    var user = data.field,
+      that = this;
+
+    $.post(data.form.action, data.field, function(res) {
+      layer.msg(res.msg);
+
+      if (res.code == 1) {
+        document.location.href = res.url;
+      } else {
+        // document.location.reload();
+        // refreshForm();
+        $(that).attr('disabled',"true");
+        refreshForm();
+      }
     });
+
     return false;
   });
 

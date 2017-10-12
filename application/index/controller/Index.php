@@ -42,9 +42,10 @@ class Index extends Controller
     public function login()
     {
         // return '欢迎登录';
-        $view = new View();
-        $view->init();
-        return $view->fetch();
+        // $view = new View();
+        // $view->init();
+        // return $view->fetch();
+        return $this->fetch();
     }
 
     public function hello($name = 'ThinkPHP5')

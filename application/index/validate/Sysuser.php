@@ -6,7 +6,7 @@ use think\Validate;
 class Sysuser extends Validate
 {
     protected $rule = [
-        'account'  => 'require|max:20',
+        'account'  => 'require|max:20|token',
         'password' => 'require',
         'captcha'  => 'require|captchaCheck',
     ];

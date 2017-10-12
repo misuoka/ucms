@@ -28,5 +28,5 @@ return [
     // redis sessionkey的前缀
     'session_name'   => 'ss.tp51_',
     // 过期时间
-    'expire'         => '90', 
+    'expire'         => '3600', 
 ];

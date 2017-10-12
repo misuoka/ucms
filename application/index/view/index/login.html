@@ -10,18 +10,21 @@
   <link rel="stylesheet" href="/layui/css/layui.css">
   <link rel="stylesheet" href="/css/style.css">
   <link rel="icon" href="/image/logo.png">
+  <script>
+  var __root__ = '<?php echo str_replace('base/base', '', Url::build('base/base', '', false)); ?>';
+  </script>
 </head>
 
 <body class="login-body body">
   <div class="login-box">
-    <form class="layui-form layui-form-pane" method="get" action="">
+    <form class="layui-form layui-form-pane" method="post" action="{:Url::build('index/user/login')}">
       <div class="layui-form-item">
-        <h3>欢迎登陆Hongyun系统</h3>
+        <h3>欢迎登陆系统</h3>
       </div>
       <div class="layui-form-item">
         <label class="layui-form-label">账号：</label>
         <div class="layui-input-inline">
-          <input type="text" name="userName" class="layui-input" lay-verify="account" placeholder="账号" autocomplete="on" maxlength="20" />
+          <input type="text" name="account" class="layui-input" lay-verify="account" placeholder="账号" autocomplete="on" maxlength="20" />
         </div>
       </div>
       <div class="layui-form-item">
@@ -36,6 +39,7 @@
           <input type="text" name="captcha" class="layui-input half" lay-verify="code" placeholder="验证码" maxlength="4" /><img id="captchaimg" src="{:Url::build('index/open/captcha')}" alt="">
         </div>
       </div>
+      <input type="hidden" name="__token__" value="{$Request.token}" />
       <div class="layui-form-item">
         <button type="reset" class="layui-btn layui-btn-danger btn-reset">重置</button>
         <button type="button" class="layui-btn btn-submit" lay-submit="" lay-filter="login">立即登录</button>

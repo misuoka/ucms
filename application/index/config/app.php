@@ -7,7 +7,7 @@ return [
         'index/login',
         'index/user',
         'User/login',
-        'open/*',
+        'Open/*',
         'Resource/*',
     ],
     'uncheck_auth'    => [
