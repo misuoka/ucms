@@ -21,6 +21,10 @@ return [
     'prefix'         => 'think',
     // 驱动方式 支持redis memcache memcached
     'type'           => 'redis',
+
+    'use_lock'       => true,
+
+    'lock_timeout'   => 10,
     // 是否自动开启 SESSION
     'auto_start'     => true,
     // 客户端session_id的coockie键
@@ -28,5 +32,5 @@ return [
     // redis sessionkey的前缀
     'session_name'   => 'ss.tp51_',
     // 过期时间
-    'expire'         => '3600', 
+    'expire'         => '3600',
 ];

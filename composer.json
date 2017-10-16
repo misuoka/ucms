@@ -3,6 +3,7 @@
     "topthink/think-worker": "^1.0",
     "topthink/think-captcha": "2.0.x-dev",
     "topthink/framework": "~5.1.0@dev",
-    "jstewmc/get-browser": "^2.0"
+    "jstewmc/get-browser": "^2.0",
+    "colinmollenhour/php-redis-session-abstract": "^1.3"
   }
 }

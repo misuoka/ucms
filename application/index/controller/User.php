@@ -44,7 +44,7 @@ class User extends Controller
             }
         }
 
-        Hook::listen('loginlog_write', ['success' => $success, 'msg' => $msg]);
+        // Hook::listen('loginlog_write', ['success' => $success, 'msg' => $msg]);
 
         $success ? $this->success($msg, 'Index/index') : $this->error($msg);
     }

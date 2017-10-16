@@ -36,7 +36,7 @@
       <div class="layui-form-item">
         <label class="layui-form-label">验证码：</label>
         <div class="layui-input-inline">
-          <input type="text" name="captcha" class="layui-input half" lay-verify="code" placeholder="验证码" maxlength="4" /><img id="captchaimg" src="{:Url::build('index/open/captcha')}" alt="">
+          <input type="text" name="captcha" class="layui-input half" lay-verify="code" placeholder="验证码" maxlength="50" /><img id="captchaimg" src="{:Url::build('index/open/captcha')}" alt="">
         </div>
       </div>
       <input type="hidden" name="__token__" value="{$Request.token}" />

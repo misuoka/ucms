@@ -15,8 +15,9 @@ use think\exception\ClassNotFoundException;
 
 class Session
 {
-    protected $prefix = '';
-    protected $init   = null;
+    protected $prefix     = '';
+    protected $init       = null;
+    protected $lockDriver = null;
 
     /**
      * 设置或者获取session作用域（前缀）
@@ -114,6 +115,11 @@ class Session
             if (!class_exists($class) || !session_set_save_handler(new $class($config))) {
                 throw new ClassNotFoundException('error session handler:' . $class, $class);
             }
+
+            if (method_exists($class, 'lock') && method_exists($class, 'unlock')) {
+                // 创建一个对象，用于加锁的
+                $this->lockDriver = new $class($config);
+            }
         }
 
         if ($isDoStart) {
@@ -151,6 +157,7 @@ class Session
     {
         $this->lock();
         empty($this->init) && $this->boot();
+        // $this->lock(); // 这样会导致同一线程写读都会有几率出错误
         $prefix = !is_null($prefix) ? $prefix : $this->prefix;
 
         if (strpos($name, '.')) {
@@ -179,6 +186,7 @@ class Session
      */
     public function get($name = '', $prefix = null)
     {
+        $this->lock();
         empty($this->init) && $this->boot();
         $prefix = !is_null($prefix) ? $prefix : $this->prefix;
 
@@ -202,33 +210,24 @@ class Session
             }
         }
 
+        $this->pause();
+        $this->unlock();
         return $value;
     }
 
-    private $strMutex   = 'redis_session';
-    private $lockDriver = null;
-    private $lockfile   = null;
+    private $strMutex = 'redis_session';
+    private $lockfile = null;
     public function lock()
     {
-        $config = Container::get('config')->pull('session');
-        if (!empty($config['type'])) {
-            // 读取session驱动
-            $class = false !== strpos($config['type'], '\\') ? $config['type'] : '\\think\\session\\driver\\' . ucwords($config['type']);
-
-            $this->lockDriver = new $class($config);
-            $this->lockDriver->open('', '');
-            $t = time();
+        if ($this->lockDriver !== null && method_exists($this->lockDriver, 'lock')) {
+            $t  = time();
+            $ot = 3;
             do {
-                if (time() - $t > 5) {
+                if (time() - $t > $ot) {
                     $this->unlock();
-                    $this->lockDriver = new $class($config);
-                    $this->lockDriver->open('', '');
-                    return $this->lockDriver->lock($this->strMutex);
                 }
-            } while (!$this->lockDriver->lock($this->strMutex));
+            } while (!$this->lockDriver->lock($this->strMutex, $ot));
         }
-
-        return true;
 
         // $this->lockfile = fopen(session_id() . '.session_lock', "w+");
         // $t              = time();
@@ -243,9 +242,8 @@ class Session
 
     public function unlock()
     {
-        if ($this->lockDriver) {
+        if ($this->lockDriver && method_exists($this->lockDriver, 'unlock')) {
             $this->lockDriver->unlock($this->strMutex);
-            $this->lockDriver = null;
         }
 
         // if ($this->lockfile != null) {
@@ -423,7 +421,8 @@ class Session
         session_unset();
         session_destroy();
 
-        $this->init = null;
+        $this->lockDriver = null;
+        $this->init       = null;
     }
 
     /**

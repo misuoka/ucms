@@ -20,8 +20,10 @@ class Syslog
 
         if (($this->request->controller() . '/' . $this->request->action()) == 'User/login') {
             // echo '登录结束';
-            // var_dump($params->getData());die;
+
         }
+
+        // var_dump($params->getData());die;
 
         // // 行为逻辑
         // if (!$this->loginedAuth()) {

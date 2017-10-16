@@ -44,4 +44,9 @@ class Index extends Controller
         // return $view->fetch();
         return $this->fetch();
     }
+
+    public function test()
+    {
+        return $this->error('ok');
+    }
 }

@@ -19,6 +19,6 @@ return [
 
     // 登录日志
     'loginlog_write' => ['app\\index\\behavior\\Loginlog'],
-    // 'response_send' => ['app\\index\\behavior\\Syslog'],
+    'response_send'  => ['app\\index\\behavior\\Syslog'],
     // 'response_end' => ['app\\index\\behavior\\Syslog'],
 ];

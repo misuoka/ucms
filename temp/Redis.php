@@ -81,6 +81,35 @@ class Redis extends SessionHandler
 
     public function lock($sessID, $intTimeout = 3)
     {
+        if ($this->handler == null) {
+            $this->open('', '');
+        }
+        // // 驱动内部加锁，会导致互斥延时太大，随着并发量增加，会因为超时而导致数据丢失率增加
+        // $lock_key = 'LOCK_PREFIX_' . $sessID;
+        // //使用setnx操作加锁，同时设置过期时间
+        // $intRet = $this->handler->setnx($lock_key, 1);
+        // if ($intRet) {
+        //     //设置过期时间，防止死任务的出现
+        //     $this->handler->expire($lock_key, $intTimeout);
+        //     return true;
+        // } else {
+        //     $t = time();
+        //     do {
+        //         // 判断锁是否过期
+        //         if ($this->handler->ttl($lock_key) == -1) {
+        //             $this->handler->expire($lock_key, $intTimeout);
+        //             return true;
+        //         }
+        //         // usleep(100);
+        //         // $t = $this->handler->get($lock_key);
+        //     } while (time() - $t <= $intTimeout);
+
+        //     $this->unlock($sessID);
+        //     return $this->lock($sessID, $intTimeout);
+        //     // $intRet = $this->handler->setnx($lock_key, 1);
+        //     // $this->handler->expire($lock_key, $intTimeout);
+        // }
+
         $lock_key = 'LOCK_PREFIX_' . $sessID;
         //使用setnx操作加锁，同时设置过期时间
         $intRet = $this->handler->setnx($lock_key, 1);
@@ -130,6 +159,10 @@ class Redis extends SessionHandler
 
     public function unlock($sessID)
     {
+        if ($this->handler == null) {
+            $this->open('', '');
+        }
+
         $lock_key = 'LOCK_PREFIX_' . $sessID;
         $this->handler->del($lock_key);
     }
@@ -142,6 +175,8 @@ class Redis extends SessionHandler
      */
     public function read($sessID)
     {
+        // 在 Redis 驱动里面进行读写锁，没有意义，$value = $_SESSION[$key] 或 $_SESSION[$key] = $value 都会先 read 后 读取
+        //
         // do {
         //     if ($this->lock($sessID)) {
         //         $res = (string) $this->handler->get($this->config['session_name'] . $sessID);
@@ -149,6 +184,7 @@ class Redis extends SessionHandler
         //         return $res;
         //     }
         // } while (true);
+
         return (string) $this->handler->get($this->config['session_name'] . $sessID);
     }
 
@@ -161,6 +197,7 @@ class Redis extends SessionHandler
      */
     public function write($sessID, $sessData)
     {
+        // 在 Redis 驱动里面进行读写锁，没有意义，$value = $_SESSION[$key] 或 $_SESSION[$key] = $value 都会先 read 后 读取
         // do {
         //     if ($this->lock($sessID)) {
         //         if ($this->config['expire'] > 0) {
@@ -172,6 +209,7 @@ class Redis extends SessionHandler
         //         return $res;
         //     }
         // } while (true);
+
         if ($this->config['expire'] > 0) {
             return $this->handler->setex($this->config['session_name'] . $sessID, $this->config['expire'], $sessData);
         } else {
